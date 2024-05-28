@@ -19,12 +19,17 @@ and executes executable files as CGI scripts.
 
 Clone the repository:
 
-```bash git clone https://github.com/yourusername/SimpleGoWebServer.git cd
-SimpleGoWebServer ```
+```bash
+git clone https://github.com/yourusername/SimpleGoWebServer.git
+cd
+```
+
 
 Build the server:
 
-```bash go build -o simplegowebserver ```
+```bash
+go build -o simplegowebserver
+```
 
 ## Usage
 
@@ -37,13 +42,19 @@ Set the necessary environment variables:
 
 Example:
 
-```bash PORT=8080 ADDR=0.0.0.0 DIR=/path/to/directory ./simplegowebserver ```
+```bash
+PORT=8080 ADDR=0.0.0.0 DIR=/path/to/directory ./simplegowebserver
+```
 
 Access the server in your browser:
 
-``` http://<ADDR>:<PORT> ```
+```
+http://<ADDR>:<PORT>
+```
 
-## License This project is licensed under the MIT License. See the LICENSE file
+## License
+
+This project is licensed under the MIT License. See the LICENSE file
 for details.
 
 ## Contributing
