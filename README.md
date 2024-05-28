@@ -15,7 +15,7 @@ and executes executable files as CGI scripts.
 ## Install
 
 ```bash
-curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s
+curl -s -S -L https://raw.githubusercontent.com/cristianrz/SimpleGoWebServer/master/install.sh | sh -s
 ```
 
 ## Prerequisites
