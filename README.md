@@ -12,11 +12,17 @@ and executes executable files as CGI scripts.
 - CGI Script Execution: Executes executable files as CGI scripts.
 - Not show hidden files/directories
 
+## Install
+
+``bash
+curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s
+```
+
 ## Prerequisites
 
 - Go (1.16+)
 
-## Installation
+## Build
 
 Clone the repository:
 
