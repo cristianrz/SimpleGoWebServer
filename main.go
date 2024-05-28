@@ -120,6 +120,9 @@ func handleDirectory(w http.ResponseWriter, r *http.Request, path string) {
 	fmt.Fprintf(w, `<li><a href="%s">%s</a></li>`, "..", "⬆️")
 	for _, file := range files {
 		name := file.Name()
+		if strings.HasPrefix(name, ".") {
+			continue // Skip hidden files and directories
+		}
 		link := filepath.Join(r.URL.Path, name)
 		if file.IsDir() {
 			link += "/"

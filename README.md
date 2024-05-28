@@ -10,6 +10,7 @@ and executes executable files as CGI scripts.
 - Serve Static Files: Serves files as-is from the specified base directory.
 - Directory Listing: Provides a directory listing if no index.html is present.
 - CGI Script Execution: Executes executable files as CGI scripts.
+- Not show hidden files/directories
 
 ## Prerequisites
 
