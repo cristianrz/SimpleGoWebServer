@@ -8,10 +8,10 @@ WORKDIR /app
 COPY . .
 
 # Build the Go app
-RUN go build -o simplegowebserver main.go
+RUN CGO_ENABLED=0 go build -o simplegowebserver main.go
 
 # Start a new stage from scratch
-FROM debian:stable-slim
+FROM scratch
 
 # Set environment variables
 ENV PORT=8080
@@ -23,9 +23,6 @@ LABEL maintainer="yourname@example.com"
 
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/simplegowebserver /usr/local/bin/simplegowebserver
-
-# Copy the base directory content to the container
-COPY --from=builder /app /app
 
 # Expose port 8080 to the outside world
 EXPOSE 8080

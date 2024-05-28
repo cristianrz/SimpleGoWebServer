@@ -9,7 +9,7 @@ all: build
 .PHONY: build
 build:
 	@echo "Building the Go application..."
-	@go build -o $(APP_NAME) main.go
+	@CGO_ENABLED=0 go build -o $(APP_NAME) main.go
 
 # Clean up the build and Docker artifacts
 .PHONY: clean
