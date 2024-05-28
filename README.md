@@ -21,9 +21,8 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/yourusername/SimpleGoWebServer.git
-cd
+cd SimpleGoWebServer
 ```
-
 
 Build the server:
 
