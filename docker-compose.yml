@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web:
+    image: simplegowebserver
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8080
+      - ADDR=0.0.0.0
+      - DIR=/app
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+
