@@ -15,6 +15,49 @@ var (
 	dir  = os.Getenv("DIR")
 )
 
+const directoryListingStyle = `
+<style>
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    color: #444;
+    font-size: 24px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    margin: 10px 0;
+}
+a {
+    text-decoration: none;
+    color: #1a73e8;
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: underline;
+}
+</style>
+`
+
 func main() {
 	if port == "" {
 		port = "8080"
@@ -73,17 +116,20 @@ func handleDirectory(w http.ResponseWriter, r *http.Request, path string) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprintf(w, "<html><body><h1>Directory listing for %s</h1><ul>", r.URL.Path)
+	fmt.Fprintf(w, "<html><head>%s<title>Directory listing for %s</title></head><body><div class='container'><h1>Directory listing for %s</h1><ul>", directoryListingStyle, r.URL.Path, r.URL.Path)
 	fmt.Fprintf(w, `<li><a href="%s">%s</a></li>`, "..", "⬆️")
 	for _, file := range files {
 		name := file.Name()
 		link := filepath.Join(r.URL.Path, name)
 		if file.IsDir() {
 			link += "/"
+			name = "📁" + name
+		} else {
+			name = "📄" + name
 		}
 		fmt.Fprintf(w, `<li><a href="%s">%s</a></li>`, link, name)
 	}
-	fmt.Fprintf(w, "</ul></body></html>")
+	fmt.Fprintf(w, "</ul></div></body></html>")
 }
 
 func handleFile(w http.ResponseWriter, r *http.Request, path string) {

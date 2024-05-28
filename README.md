@@ -27,7 +27,7 @@ cd SimpleGoWebServer
 Build the server:
 
 ```bash
-go build -o simplegowebserver
+go build -o simplegowebserver main.go
 ```
 
 ## Usage
@@ -50,6 +50,11 @@ Access the server in your browser:
 ```
 http://<ADDR>:<PORT>
 ```
+
+## Why
+
+I wanted a simple oneliner that has CGI on executable and directory listing for
+quickly spinning up any type of web server including APIs.
 
 ## License
 
