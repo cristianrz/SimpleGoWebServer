@@ -1,75 +1,83 @@
 # SimpleGoWebServer
 
-SimpleGoWebServer is a lightweight web server written in Go that serves files
-and directories from a specified base directory. It handles directories by
-serving an index.html file if present, providing a directory listing if not,
-and executes executable files as CGI scripts.
+A web server where any executable file is a CGI endpoint.
 
-## Features
+Drop a shell script in a directory, make it executable, point
+SimpleGoWebServer at it — it's now an HTTP API. No config, no framework,
+no routes to define.
 
-- Serve Static Files: Serves files as-is from the specified base directory.
-- Directory Listing: Provides a directory listing if no index.html is present.
-- CGI Script Execution: Executes executable files as CGI scripts.
-- Not show hidden files/directories
+```sh
+DIR=/var/www PORT=8080 ADDR=0.0.0.0 simplegowebserver
+```
+
+## How it works
+
+- **Executable file** → runs as a CGI script, output served as HTTP response
+- **Regular file** → served as-is
+- **Directory** → serves `index.html` if present, otherwise a directory listing
+- **Hidden files** → never served
+
+## CGI scripts
+
+Any executable in the served directory becomes an endpoint. The script receives
+standard CGI environment variables and must write a response with headers:
+
+```sh
+#!/bin/sh
+# api/hello — available at /api/hello
+printf 'Content-Type: text/plain\n\nHello, %s!\n' "$QUERY_STRING"
+```
+
+Available environment variables:
+
+| Variable | Description |
+|---|---|
+| `REQUEST_METHOD` | GET, POST, etc. |
+| `QUERY_STRING` | URL query string |
+| `CONTENT_TYPE` | Request content type |
+| `CONTENT_LENGTH` | Request body length |
+| `SCRIPT_NAME` | Request path |
+| `SERVER_NAME` | Host header |
+| `SERVER_PORT` | Listening port |
+| `REMOTE_ADDR` | Client address |
+| `HTTP_*` | All request headers |
 
 ## Install
 
-```bash
-curl -s -S -L https://raw.githubusercontent.com/cristianrz/SimpleGoWebServer/master/install.sh | sh -s
+```sh
+go install github.com/cristianrz/SimpleGoWebServer@latest
 ```
 
-## Prerequisites
+Or build from source:
 
-- Go (1.16+)
-
-## Build
-
-Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/SimpleGoWebServer.git
+```sh
+git clone https://github.com/cristianrz/SimpleGoWebServer.git
 cd SimpleGoWebServer
-```
-
-Build the server:
-
-```bash
-go build -o simplegowebserver main.go
+go build -o simplegowebserver .
 ```
 
 ## Usage
 
-Set the necessary environment variables:
+```sh
+# Serve current directory on localhost:8080
+simplegowebserver
 
-- `PORT`: The port on which the server will listen (default: 8080).
-- `ADDR`: The address on which the server will listen (default: 127.0.0.1).
-- `DIR`: The base directory from which files will be served (default: current
-  directory).
-
-Example:
-
-```bash
-PORT=8080 ADDR=0.0.0.0 DIR=/path/to/directory ./simplegowebserver
+# Serve a specific directory on all interfaces
+DIR=/var/www PORT=80 ADDR=0.0.0.0 simplegowebserver
 ```
 
-Access the server in your browser:
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `8080` | Port to listen on |
+| `ADDR` | `127.0.0.1` | Address to bind |
+| `DIR` | `.` | Directory to serve |
 
+## Docker
+
+```sh
+docker compose up
 ```
-http://<ADDR>:<PORT>
-```
-
-## Why
-
-I wanted a simple oneliner that has CGI on executable and directory listing for
-quickly spinning up any type of web server including APIs.
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file
-for details.
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for
-any improvements or bug fixes.
-
+MIT
